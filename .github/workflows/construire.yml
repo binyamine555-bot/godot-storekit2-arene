@@ -1,0 +1,62 @@
+# Construit le module iOS godot-storekit2 (v0.2 + ajouts « arene » : identifiant de transaction, finish apres credit,
+# fenetre Apple de saisie de code d'offre) pour Godot 4.5.2. Resultat pousse sur la branche build-<numero>.
+name: Construire le module
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["godot-storekit2/**", ".github/workflows/**"]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: patch
+      - name: Sources
+        run: |
+          set -e
+          git clone --depth 1 -b v0.2 https://github.com/godot-sdk-integrations/godot-storekit2.git up
+          git clone --depth 1 -b 4.5.2-stable https://github.com/godotengine/godot.git up/godot
+          cp patch/godot-storekit2/GodotStoreKit2Swift.swift patch/godot-storekit2/godot-storekit2.mm patch/godot-storekit2/godot-storekit2.h patch/godot-storekit2/godot-storekit2.gdip up/godot-storekit2/
+          xcodebuild -version
+      - name: En-tetes Godot
+        run: |
+          set +e
+          pip3 install --break-system-packages scons >/dev/null 2>&1 || pip3 install scons
+          cd up/godot
+          perl -e 'alarm shift; exec @ARGV' 240 scons platform=ios target=template_debug > ../../scons.log 2>&1
+          echo "gen.h: $(find . -name '*.gen.h' | wc -l)"
+          tail -5 ../../scons.log
+      - name: Compiler
+        run: |
+          set -o pipefail
+          cd up
+          N=godot-storekit2
+          for C in Debug Release; do
+            c=$(echo $C | tr A-Z a-z)
+            xcrun xcodebuild archive -project $N.xcodeproj -scheme $N -destination "generic/platform=iOS" -archivePath bin/archives/$N.$c -configuration $C CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" DEVELOPMENT_TEAM="" 2>&1 | tee -a ../build.log | grep -E "error|warning: .*arene|BUILD|ARCHIVE" | head -80
+            xcrun xcodebuild -create-xcframework -archive bin/archives/$N.$c.xcarchive -library lib$N.a -output bin/out/$N/$N.$c.xcframework 2>&1 | tee -a ../build.log
+          done
+          cp $N/$N.gdip bin/out/$N/
+          touch bin/out/$N/.gdignore
+          find bin/out -type f -exec ls -la {} \;
+          nm -gU bin/out/$N/$N.release.xcframework/ios-arm64/lib$N.a 2>/dev/null | grep -iE "finish_transaction|present_code|arene_version" | head
+      - name: Publier sur une branche
+        if: always()
+        run: |
+          set -e
+          git config --global user.email "actions@github.com"; git config --global user.name "build"
+          cd patch
+          B=build-${{ github.run_number }}
+          git checkout -b $B
+          rm -rf out; mkdir -p out
+          cp -R ../up/bin/out/godot-storekit2 out/ 2>/dev/null || echo "pas de module construit" > out/ECHEC.txt
+          (grep -nE "error:" ../build.log | head -60; echo ----; tail -60 ../build.log) > out/build_tail.log 2>/dev/null || true
+          tail -40 ../scons.log > out/scons_tail.log 2>/dev/null || true
+          git add -A out
+          git commit -m "module construit (run ${{ github.run_number }})"
+          git push origin $B
