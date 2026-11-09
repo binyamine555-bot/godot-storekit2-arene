@@ -22,15 +22,32 @@ jobs:
           git clone --depth 1 -b v0.2 https://github.com/godot-sdk-integrations/godot-storekit2.git up
           git clone --depth 1 -b 4.5.2-stable https://github.com/godotengine/godot.git up/godot
           cp patch/godot-storekit2/GodotStoreKit2Swift.swift patch/godot-storekit2/godot-storekit2.mm patch/godot-storekit2/godot-storekit2.h patch/godot-storekit2/godot-storekit2.gdip up/godot-storekit2/
+          ls -d /Applications/Xcode*.app
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$X" ]; then sudo xcode-select -s "$X/Contents/Developer"; fi
           xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+      - name: Installer scons
+        timeout-minutes: 5
+        run: |
+          python3 -m venv /tmp/sc && /tmp/sc/bin/pip install -q scons && /tmp/sc/bin/scons --version | head -2
       - name: En-tetes Godot
+        timeout-minutes: 8
         run: |
           set +e
-          pip3 install --break-system-packages scons >/dev/null 2>&1 || pip3 install scons
           cd up/godot
-          perl -e 'alarm shift; exec @ARGV' 240 scons platform=ios target=template_debug > ../../scons.log 2>&1
-          echo "gen.h: $(find . -name '*.gen.h' | wc -l)"
-          tail -5 ../../scons.log
+          /tmp/sc/bin/scons platform=ios target=template_debug -j3 > ../../scons.log 2>&1 &
+          P=$!
+          for i in $(seq 1 40); do
+            sleep 5
+            N=$(find . -name '*.gen.h' | wc -l | tr -d ' ')
+            echo "t=$((i*5))s gen.h=$N $(tail -1 ../../scons.log | cut -c1-120)"
+            if grep -q "Compiling\|\[ *[0-9]*%\]" ../../scons.log && [ $i -ge 12 ]; then break; fi
+            kill -0 $P 2>/dev/null || break
+          done
+          kill -9 $P 2>/dev/null; pkill -9 -f scons; pkill -9 clang; sleep 2
+          echo "gen.h final: $(find . -name '*.gen.h' | wc -l)"
+          tail -8 ../../scons.log
       - name: Compiler
         run: |
           set -o pipefail
