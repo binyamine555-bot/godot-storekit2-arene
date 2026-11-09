@@ -1,0 +1,40 @@
+[34mLinking Static Library [1mbin/obj/modules/libmodule_meshoptimizer.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mRanlib Library [1mbin/obj/modules/libmodule_meshoptimizer.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/mobile_vr/mobile_vr_interface.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/mobile_vr/register_types.cpp[22;23;24;29m ...[0m
+[34mLinking Static Library [1mbin/obj/modules/libmodule_minimp3.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mRanlib Library [1mbin/obj/modules/libmodule_minimp3.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/multiplayer_debugger.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/multiplayer_spawner.cpp[22;23;24;29m ...[0m
+[34mLinking Static Library [1mbin/obj/modules/libmodule_mobile_vr.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mRanlib Library [1mbin/obj/modules/libmodule_mobile_vr.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/multiplayer_synchronizer.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/register_types.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/scene_cache_interface.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/scene_multiplayer.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/scene_replication_config.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/scene_replication_interface.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/multiplayer/scene_rpc_interface.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/rvo2/rvo2_2d/Agent2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/rvo2/rvo2_2d/Obstacle2d.cpp[22;23;24;29m ...[0m
+[34mLinking Static Library [1mbin/obj/modules/libmodule_multiplayer.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mRanlib Library [1mbin/obj/modules/libmodule_multiplayer.ios.template_debug.arm64.a[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/rvo2/rvo2_2d/KdTree2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/rvo2/rvo2_2d/RVOSimulator2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/Recast.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/RecastAlloc.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/RecastArea.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/RecastAssert.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/RecastContour.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/RecastFilter.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mthirdparty/recastnavigation/Recast/Source/RecastLayers.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/register_types.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/nav_map_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/2d/nav_region_builder_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/2d/nav_map_builder_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/nav_agent_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/nav_obstacle_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/triangle2.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/2d/nav_mesh_generator_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/2d/godot_navigation_server_2d.cpp[22;23;24;29m ...[0m
+[34mCompiling [1mmodules/navigation_2d/2d/nav_mesh_queries_2d.cpp[22;23;24;29m ...[0m
